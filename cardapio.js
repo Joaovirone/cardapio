@@ -1,36 +1,35 @@
-        function showCategory(categoryId) {
-            const menuList = document.getElementById('menuList');
-            const categories = ['salgados', 'doces', 'gelados', 'bebidas'];
+function showCategory(categoryId) {
+    const menuList = document.getElementById('menuList');
+    const categories = ['salgados', 'doces', 'gelados', 'bebidas'];
 
-            // Remove a classe "show" (para resetar animação)
-            document.querySelectorAll('.menu-category').forEach(category => {
-                category.classList.remove('show');
-            });
+    // Remove a classe "show" (para resetar animação)
+    document.querySelectorAll('.menu-category').forEach(category => {
+        category.classList.remove('show');
+    });
 
-            // Remove a categoria selecionada do array
-            const selectedCategoryIndex = categories.indexOf(categoryId);
-            const reorderedCategories = categories.splice(selectedCategoryIndex, 1);
+    // Pega a categoria selecionada corretamente
+    const selectedCategoryIndex = categories.indexOf(categoryId);
+    const selectedCategory = categories.splice(selectedCategoryIndex, 1)[0];
 
-            // Coloca a categoria selecionada no início e reordena as outras
-            categories.forEach(category => {
-                reorderedCategories.push(category);
-            });
+    // Reordena colocando a selecionada primeiro
+    const reorderedCategories = [selectedCategory, ...categories];
 
-            // Reorganiza a ordem no DOM com animação
-            reorderedCategories.forEach((category, index) => {
-                const categoryElement = document.getElementById(category);
-                menuList.appendChild(categoryElement);
-                
-                // Adiciona a classe "show" para aplicar a animação somente ao clicar
-                setTimeout(() => {
-                    categoryElement.classList.add('show');
-                }, 100 * index); // Atraso para efeito gradual
-            });
+    // Reorganiza a ordem no DOM com animação
+    reorderedCategories.forEach((category, index) => {
+        const categoryElement = document.getElementById(category);
+        if (categoryElement) {
+            menuList.appendChild(categoryElement);
+
+            setTimeout(() => {
+                categoryElement.classList.add('show');
+            }, 100 * index);
         }
+    });
+}
 
-        // Evento de clique para mostrar/ocultar descrições
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', () => {
-                item.classList.toggle('active');
-            });
-        });
+// Evento de clique para mostrar/ocultar descrições
+document.querySelectorAll('.menu-item').forEach(item => {
+    item.addEventListener('click', () => {
+        item.classList.toggle('active');
+    });
+});
